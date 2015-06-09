@@ -1,0 +1,25 @@
+.profile-picture{
+    width: 100px;
+    border-radius: 50px;
+}
+
+.vertical-text{
+    margin-top: 35px;
+}
+
+.name{
+    font-size: 18px;
+}
+
+.points{
+    font-size: 18px;
+}
+
+.social-bars{
+    margin-top: 20px;
+}
+
+.progress{
+    margin-bottom: 1px;   
+
+}
