@@ -3,7 +3,22 @@ var $$ = {
     localStorage['karma.data'] = JSON.stringify(this.data);
   },
   readData: function(){
-    this.data = JSON.parse(localStorage['karma.data']);
+    if(localStorage['karma.data']){
+      this.data = JSON.parse(localStorage['karma.data']);
+    }
+    else{
+      $$.loadData();
+    }
+  },
+  loadData: function(){
+    $.ajax({
+      url:"./data.json",
+      dataType: "JSON",
+      success: function(data){
+        $$.data = data;
+        $$.storeData();
+      }
+    });
   },
   leaderboard: function() {
     return this.data.sort(this.compare);
@@ -38,21 +53,23 @@ var $$ = {
     $('ul').append(liArray);
   },
   showInput: function(){
-    var value = $(this).text();
-    var input = $(this).parent('li').find('.input');
+    var $points = $(this).text();
+    var value = $points.text();
+    var input = $points.parent('li').find('.input');
     input.attr('value', value);
     input.show();
-    $(this).hide();
+    $points.hide();
   },
   updateValues: function(event){
     var key = event.which;
+    var $input = $(this);
     if(key === 13){
-      var span = $(this).parent('li').find('.points');
-      var value = $(this).val();
+      var span = $points.parent('li').find('.points');
+      var value = $points.val();
       span.text(value);
       span.show();
-      $$.modifyPointsFor($(this).parent('li').attr('id'), value);
-      $(this).hide();
+      $$.modifyPointsFor($points.parent('li').attr('id'), value);
+      $points.hide();
       $('.person:not(#template)').remove();
       $$.loadTable();
     }
